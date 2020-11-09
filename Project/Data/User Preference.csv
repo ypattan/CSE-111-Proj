@@ -1,0 +1,10 @@
+username,name,address,min_rating,max_pricing,dining_options,preference_key
+apple,pie,Fremont,3,$$,dine-in,1
+apple,cobbler,Fremont,4,$$$,dine-in,2
+apple,sauce,Fremont,4,$$$$,takeout,3
+banana,pudding,Fremont,4,$$$,takeout,1
+kiwi,candy,Palo Alto,4,$$$,dine-in,1
+kiwi,jello,Palo Alto,4,$$,both,2
+kiwi,juice,Palo Alto,4,$$$,both,3
+plum,pudding,San Jose,4,$,both,1
+plum,compote,San Jose,4,$$,dine-in,2
