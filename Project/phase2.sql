@@ -11,7 +11,7 @@ CREATE TABLE CuisinePref(
     );
 
 CREATE TABLE DineIn(
-    Order_options_key INTEGER NOT NULL,,
+    Order_options_key INTEGER NOT NULL,
     phone_number INTEGER NOT NULL,
     reservation INTEGER NOT NULL
 );
@@ -67,4 +67,9 @@ CREATE TABLE Users(
     u_username VARCHAR(30) NOT NULL,
     u_password VARCHAR(30) NOT NULL,
     u_email VARCHAR(30) NOT NULL
-)
+);
+
+.open ./data/sampledata.sqlite 
+.mode "csv"
+.separator ","
+.import ./data/customer.tbl customer
