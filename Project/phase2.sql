@@ -17,6 +17,7 @@ CREATE TABLE DineIn(
 );
 
 CREATE TABLE Orders (
+    Order_options_key INTEGER NOT NULL,
     dining_key INTEGER NOT NULL,
     Restaurant varchar(25) NOT NULL
 );
@@ -69,7 +70,45 @@ CREATE TABLE Users(
     u_email VARCHAR(30) NOT NULL
 );
 
-.open ./data/sampledata.sqlite 
-.mode "csv"
-.separator ","
-.import ./data/customer.tbl customer
+.mode "csv";
+.separator ",";
+.import "Cuisine.csv" Cuisine
+DELETE FROM Cuisine limit 1;
+
+.import "CuisinePreference.csv" CuisinePref
+DELETE FROM CuisinePref limit 1;
+
+.import "Dine-InOptions.csv" DineIn
+DELETE FROM DineIn limit 1;
+
+.import "UserFeedback.csv" Feedback
+DELETE FROM Feedback limit 1;
+
+.import "UserHistory.csv" History
+DELETE FROM History limit 1;
+
+.import "Orders.csv" Orders
+DELETE FROM Orders limit 1;
+
+.import "UserPreference.csv" Preference
+DELETE FROM Preference limit 1;
+
+.import "Restaurant.csv" Restaurant
+DELETE FROM Restaurant limit 1;
+
+.import "Take-outOptions.csv" TakeOut
+DELETE FROM TakeOut limit 1;
+
+.import "Users.csv" Users
+DELETE FROM Users limit 1;
+
+-- DELETE FROM Cuisine;
+-- DELETE FROM CuisinePref;
+-- DELETE FROM DineIn;
+-- DELETE FROM Feedback;
+-- DELETE FROM History;
+-- DELETE FROM Orders;
+-- DELETE FROM Preference;
+-- DELETE FROM Restaurant;
+-- DELETE FROM TakeOut;
+-- DELETE FROM Users;
