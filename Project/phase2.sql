@@ -38,12 +38,14 @@ CREATE TABLE TakeOut(
     t_optKey INTEGER NOT NULL
 );
 
+
 CREATE TABLE Feedback(
     f_username CHAR(20) NOT NULL,
     f_res_key INTEGER NOT NULL,
     f_rating INTEGER NOT null,
     f_notes VARCHAR(250) NOT NULL,
-    f_pref_key INTEGER NOT NULL
+    f_pref_key INTEGER NOT NULL,
+    f_feedback_key INTEGER NOT NULL
 );
 
 CREATE TABLE History(
@@ -112,3 +114,86 @@ DELETE FROM Users limit 1;
 -- DELETE FROM Restaurant;
 -- DELETE FROM TakeOut;
 -- DELETE FROM Users;
+
+-- update a restaurant rating
+UPDATE Restaurant SET r_rating = 2 WHERE r_diningKey = 4;
+
+-- insert two new restaurants
+INSERT INTO Restaurant (r_name, r_address, r_cuisineKey, r_rating, r_pricing, r_diningKey, r_website)
+VALUES
+    ("Dolce Sicilia", "San Jose", 4, 5, "$", 6, "website.com"),
+    ("Opa!", "San Jose", 3.5, 21, "$$", 7, "website.com");
+
+-- delete a restaurant
+DELETE FROM Restaurant
+WHERE r_name LIKE '%Dolce%';
+
+-- insert a new cuisine
+INSERT INTO Cuisine (name, cuisine_key)
+VALUES ("Vegetarian", 32),
+        ("Pizza", 33);
+
+-- update cuisine name
+UPDATE Cuisine SET name = "vegetarian" WHERE cuisine_key = 32;
+
+-- delete a cuisine
+DELETE FROM Cuisine
+WHERE name = "Pizza";
+
+-- insert a new user
+INSERT INTO Users (u_username, u_password, u_email)
+VALUES ("strawberry", "password11", "strawberry@email.com");
+
+-- delete a user
+DELETE FROM Users
+WHERE u_username = "orange";
+
+-- update a user password
+UPDATE Users SET u_password = "password12" WHERE u_username = "kiwi";
+
+-- insert user history
+INSERT INTO History (h_username, h_date, h_rest_key, h_feedback_key, h_pref_key)
+VALUES ("strawberry", "10/10/2020", 4, 1, 2);
+
+-- update date from user history
+UPDATE History SET h_date = "10/02/2020" WHERE h_username = "strawberry";
+
+-- delete a user history
+DELETE FROM History
+WHERE u_username = "stawberry";
+
+-- insert a new restaurant order options
+INSERT INTO Orders (Order_options_key, dining_key, Restaurant)
+VALUES (6, 6, "Opa!"),
+        (7, 7, "Dolce Sicilia");
+
+-- delete a restaurant's order options
+DELETE FROM Orders
+WHERE Restaurant = "Dolce Sicilia";
+
+-- delete a preference
+DELETE FROM Preference
+WHERE p_username = 'apple' AND
+p_food = 'sauce';
+
+-- update rating and dining options for a user
+UPDATE Preference
+SET p_minRating = '3', p_dining = 'takeout'
+WHERE p_username = 'plum' AND p_food = 'pudding';
+
+-- add a preference
+INSERT INTO Preference(p_username, p_food, p_address, p_minRating, p_maxPricing, p_dining, p_key)
+VALUES('banana', 'frozen', 'Whittier', '2', '$$', 'takeout', '2');
+
+-- delete a user feedback
+DELETE FROM Feedback
+WHERE f_username = 'kiwi' AND f_rating = '1' AND f_pref_key = '2';
+
+-- update the note for a user feedback
+UPDATE Feedback
+SET f_notes = 'kkashdjah ahiudhw9 hd- dajhdd ', f_rating = '4'
+WHERE f_username = 'apple' AND f_res_key = '3'
+
+-- add a new user feedback
+INSERT INTO Feedback(f_username, f_res_key, f_rating, f_notes, f_pref_key, f_feedback_key)
+VALUES('orange', '5', '4', 'ijsdfusdhf ihas8 d7fy7', '1', '15');
