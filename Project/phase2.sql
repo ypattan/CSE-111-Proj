@@ -143,6 +143,9 @@ WHERE name = "Pizza";
 -- insert a new user
 INSERT INTO Users (u_username, u_password, u_email)
 VALUES ("strawberry", "password11", "strawberry@email.com");
+-- insert user history
+INSERT INTO History (h_username, h_date, h_rest_key, h_feedback_key, h_pref_key)
+VALUES ("strawberry", "10/10/2020", 4, 1, 2);
 
 -- delete a user
 DELETE FROM Users
@@ -151,9 +154,6 @@ WHERE u_username = "orange";
 -- update a user password
 UPDATE Users SET u_password = "password12" WHERE u_username = "kiwi";
 
--- insert user history
-INSERT INTO History (h_username, h_date, h_rest_key, h_feedback_key, h_pref_key)
-VALUES ("strawberry", "10/10/2020", 4, 1, 2);
 
 -- update date from user history
 UPDATE History SET h_date = "10/02/2020" WHERE h_username = "strawberry";
