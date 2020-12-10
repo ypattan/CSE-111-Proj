@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS restaurants(
 );
 
 CREATE TABLE IF NOT EXISTS user_feedback(
-    feedback_key INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_feedback STRING NOT NULL,
-    restaurant STRING NOT NULL,
-    rating INTEGER NOT NULL,
-    note STRING NOT NULL
+    "feedback_key" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user" VARCHAR NOT NULL,
+    "restaurant_key" INTEGER NOT NULL,
+    "rating" INTEGER NOT NULL,
+    "note" STRING NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user_history(
@@ -51,10 +51,11 @@ CREATE TABLE IF NOT EXISTS users(
     email STRING NOT NULL
 );
 
-SELECT * 
-FROM restaurants,order_options
-WHERE restaurants.cuisine = 1
-AND restaurants.rating = 1
-AND restaurants.pricing = "$$"
-AND restaurants.dining_key = 2
-AND dining_key = order_options;
+.import Cuisine.csv cuisine
+.import Orders.csv order_options
+.import Restaurant.csv restaurants
+.import Users.csv users
+
+.adopt dont shop
+
+SELECT rowid FROM user_feedback;
