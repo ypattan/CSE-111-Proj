@@ -1,5 +1,8 @@
 import sqlite3
 from sqlite3 import Error
+from datetime import datetime
+
+user = stawberry
 
 def openConnection(_dbFile):
     print("Open database: ", _dbFile)
@@ -23,6 +26,9 @@ def closeConnection(_conn, _dbFile):
     except Error as e:
         print(e)
 
+# def addToHistory(_restkey){
+    
+# }
 
 
 def generateRestaurant(_cuisine, _rating, _pricing, _diningStyle, _conn):
@@ -48,19 +54,28 @@ def generateRestaurant(_cuisine, _rating, _pricing, _diningStyle, _conn):
         else:
             options = "both"
         row = cur.fetchone()
+        restkey = row[0]
         print("Restaurant: " + row[1])
         print("Address: " + row[2]) 
         print("Rating: " + str(row[4]))
         print("Pricing: " + row[5]) 
         print("Dining Options: ",options) 
 
-        # add to user history 
-        # ask if they would like to leave feedback
+         # ask if they would like to leave feedback
+        give_feedback = input("Would you like to leave feedback? (y/n)")
+
+        if give_feedback == "y":
+
+
+
+        # add to user history
+        # addToHistory(restkey)
+
+       
     except Error as e:
         print(e)
 
-        # checkHistory()
-        menu()
+    menu()
 
 
 

@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS restaurants(
 );
 
 CREATE TABLE IF NOT EXISTS user_feedback(
-    feedback_key INTEGER NOT NULL,
+    feedback_key INTEGER PRIMARY KEY AUTOINCREMENT,
     user_feedback STRING NOT NULL,
     restaurant STRING NOT NULL,
     rating INTEGER NOT NULL,
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS user_feedback(
 CREATE TABLE IF NOT EXISTS user_history(
     user STRING NOT NULL,
     date DATE NOT NULL,
-    restaurant STRING NOT NULL,
-    feedback_key INTEGER NOT NULL
+    restaurant_key STRING NOT NULL,
+    feedback_key INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS user_preference(
