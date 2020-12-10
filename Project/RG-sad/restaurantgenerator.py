@@ -2,7 +2,7 @@ import sqlite3
 from sqlite3 import Error
 from datetime import datetime
 signedin = False
-curr_user = "anonymous"
+current_user = "guest"
 def openConnection(_dbFile):
     print("Open database: ", _dbFile)
 
@@ -28,7 +28,15 @@ def closeConnection(_conn, _dbFile):
 
 def view_history(_conn):
     c = _conn.cursor()
-    user = input("Whose History would you like to check? ")
+    print("Whose History would you like to check? ")
+    print("1    yours (" + current_user + ")")
+    print("2    guest")
+    user = input()
+    if user == "1":
+        user = current_user
+    else:
+        user = "guest"
+
     sql = "SELECT * FROM user_history WHERE user = ?"
     c.execute(sql, [user,])
     for row in c.fetchall():
@@ -69,7 +77,7 @@ def giveFeedback(_restKey,_conn):
 
         sql = """INSERT INTO user_feedback (feedback_key, user, restaurant_key, rating, note)
         VALUES(?,?,?,?,?)"""
-        args = [row_id+1, curr_user, _restKey, user_rating, user_note]
+        args = [row_id+1, current_user, _restKey, user_rating, user_note]
 
         cur.execute(sql,args)
         _conn.commit()
@@ -135,13 +143,13 @@ def chooseOptions():
     while cuisine < "1" or cuisine > "5":
         cuisine = input("Not an acceptable answer. Try again: ")
 
-    print("Preferred  minimum restaurant rating? (Between 1 - 5)")
+    print("Preferred  minimum restaurant rating? (Between 1 - 5) ")
     rating = input("Choose rating: ")
 
     while rating < "1" or rating > "5":
         rating = input("Not an acceptable answer. Try again: ")
 
-    print("Preferred  maximum restaurant pricing? (Between $ - $$$$$)")
+    print("Preferred  maximum restaurant pricing? (Between 1 - 5) ")
     pricing = input("Choose pricing: ")
 
     while pricing < "1" or pricing > "5":
@@ -177,23 +185,61 @@ def menu():
     print("4    Exit")
     return input("Enter choice: ")
 
+def enterPassword (_conn, password):
+    pw = input("Password: ")
+    if pw == password:
+        print("You signed in!")
+
+    else:
+        print("try again!")
+        enterPassword(_conn, password)
+
+
+
+
 def signin(_conn):
-    curr_user = input("Username: ")
-    sql = "SELECT * FROM users WHERE username = curr_user"
+    current_user = input("Username: ")
+    sql = "SELECT * FROM users WHERE username = ?"
     cur = _conn.cursor()
-    cur.execute(sql)
+    arg = [current_user]
+    cur.execute(sql, arg)
 
 
     row = cur.fetchone()
-    username = row[0]
-    if username == None:
+    if row == None:
+        print("Would you like to try again?")
+        print("1    yes")
+        print("2    no, I will continue as a guest")
         tryagain = input()
+        if tryagain == "1":
+            signin(_conn)
+        else:
+            current_user = "guest"
+            return
+    elif row != None:
+        un = row[0]
+        if (current_user == un):
+            # password
+            enterPassword(_conn, row[1])
+        else:
+            print("Would you like to try again?")
+            print("1    yes")
+            print("2    no, I will continue as a guest")
+            tryagain = input()
+            if tryagain == 1:
+                signin(_conn)
+            else:
+                return
+
+
 
 def main():
     database = r"data.sqlite"
     conn = openConnection(database)
     
-    signin(conn)
+    if signedin == False:
+        signin(conn)
+        signedin = True
 
     task = menu()
     
@@ -207,7 +253,11 @@ def main():
 
         if task == "2":
             view_history(conn)
-        
+
+        if task == "4":
+            break
+
+    # delete all user history and preferences that correspond to guest  
 
 if __name__ == '__main__':
     main()
