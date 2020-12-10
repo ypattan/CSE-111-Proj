@@ -1,7 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 from datetime import datetime
-
+signedin = False
 curr_user = "anonymous"
 def openConnection(_dbFile):
     print("Open database: ", _dbFile)
@@ -80,9 +80,6 @@ def giveFeedback(_restKey,_conn):
         print(e)
 
 
-
-
-
 def generateRestaurant(_cuisine, _rating, _pricing, _diningStyle, _conn):
     
     try:
@@ -113,8 +110,6 @@ def generateRestaurant(_cuisine, _rating, _pricing, _diningStyle, _conn):
         print("Pricing: " + row[5]) 
         print("Dining Options: ",options) 
 
-        # cur.commit()
-
          # ask if they would like to leave feedback
         give_feedback = input("Would you like to leave feedback? (y/n) ")
 
@@ -124,15 +119,10 @@ def generateRestaurant(_cuisine, _rating, _pricing, _diningStyle, _conn):
             feedbackkey = None
         
         addToHistory(restkey, feedbackkey, _conn)
-
-        # add to user history
-        # addToHistory(restkey)
         
     except Error as e:
 
         print(e)
-
-
 
 def chooseOptions():
     print("1    mexican")
@@ -178,8 +168,6 @@ def chooseOptions():
     
     return cuisine, rating, pricing, diningStyle
     
-    
-    
 
 def menu():
     print("Menu (type number to choose task):")
@@ -189,28 +177,37 @@ def menu():
     print("4    Exit")
     return input("Enter choice: ")
 
-# def signin():
-#     curr_user = input("Username: ")
+def signin(_conn):
+    curr_user = input("Username: ")
+    sql = "SELECT * FROM users WHERE username = curr_user"
+    cur = _conn.cursor()
+    cur.execute(sql)
+
+
+    row = cur.fetchone()
+    username = row[0]
+    if username == None:
+        tryagain = input()
 
 def main():
     database = r"data.sqlite"
     conn = openConnection(database)
     
-    # signin(_conn)
+    signin(conn)
 
     task = menu()
     
     while task != 4:
         if task == "1":
             cuisine, rating, pricing, diningStyle = chooseOptions()
+            savepref = input("Would you like to save these preferences?(y/n) ")
+            if savepref == "y":
+                saveUserPref(cuisine, rating, pricing, diningStyle, conn)
             generateRestaurant(cuisine, rating, pricing, diningStyle, conn)
 
         if task == "2":
             view_history(conn)
         
-
-
-
 
 if __name__ == '__main__':
     main()
